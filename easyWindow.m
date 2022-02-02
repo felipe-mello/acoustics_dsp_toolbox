@@ -6,6 +6,8 @@
 %       ii) 'timeInvertal': [inicio final] da janela em segundos
 %       iii) 'windowSize': default é 256 (samples)
 %       iv) 'samplingRate': default é 44100
+%       v) 'windowType': default é @hann. Checar doc do matlab para mais
+%       opções
 %
 %   Saída:
 %       output: sinal janelado
@@ -21,12 +23,14 @@ p = inputParser;
 
 default_windowSize = 256; % samples
 default_samplingRate = 44100;
+default_windowType = @hann;
 
 addRequired(p, 'input', @isnumeric);
 addRequired(p, 'timeInterval', @isnumeric);
 
 addParameter(p, 'windowSize', default_windowSize, @isnumeric);
 addParameter(p, 'samplingRate', default_samplingRate, @isnumeric);
+addParameter(p, 'windowType', default_windowType);
 
 parse(p, input, timeInterval, varargin{:});
 
@@ -35,7 +39,8 @@ parse(p, input, timeInterval, varargin{:});
 output = p.Results.input;
 windowEnvelop = ones(length(output), 1);
 
-win = hann(p.Results.windowSize);
+% win = hann(p.Results.windowSize);
+win = window(p.Results.windowType, p.Results.windowSize);
 winStart = p.Results.timeInterval(1);
 winStop = p.Results.timeInterval(2);
 

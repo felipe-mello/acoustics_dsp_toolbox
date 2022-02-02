@@ -7,9 +7,9 @@
 %
 %%
 
-function fredPlot(fig)
+function fredPlot(fig, fontSize)
 
-fig.set('DefaultAxesFontSize', 16);
+fig.set('DefaultAxesFontSize', fontSize);
 fig.set('OuterPosition', [100 100 1200 675]);
 
 end

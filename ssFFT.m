@@ -10,7 +10,7 @@
 %           the signal's length
 %
 %           ii) amp_mode: defines the amplitude correction. The following
-%           options are available -> 'peak', 'rms' and 'power'. They return
+%           options are available -> 'peak', 'rms' and 'complex'. They return
 %
 %           iii) phase_mode: defines if phase is returned in radians or
 %           degrees -> arguments: 'degress', 'radians'
@@ -36,7 +36,7 @@ function [spectrum, phase, freqVec, rawSpectrum, info] = ssFFT(signal, fs, varar
 p = inputParser;
 
 defaultAmp_mode = 'rms';
-validAmp_modes = {'peak', 'rms', 'power', 'complex'};
+validAmp_modes = {'peak', 'rms', 'complex'};
 checkAmp_mode = @(x) any(validatestring(x, validAmp_modes));
 
 defaultPhase_mode = 'radians';
@@ -64,7 +64,9 @@ signalLen = length(signal);
 
 freqVec = (fs/nfft)*(0:nfft/2); % Frequency vector -> (NFFT/fs) is the resolution in frequency domain
 
-rawSpectrum = fft(signal, nfft)./signalLen; % fft calculation
+% Teste - ao que indica, não posso dividir o rawSpectrum pelo signalLen
+% rawSpectrum = fft(signal, nfft)./signalLen; % fft calculation
+rawSpectrum = fft(signal, nfft);
 
 % Phase calculation
 phase = angle(rawSpectrum(1:nfft/2+1));
@@ -84,7 +86,7 @@ end
 % Amplitude spectrum (based on peak values)
 if strcmp(p.Results.amp_mode, 'peak')
         
-    spectrum = abs(rawSpectrum); % amplitude spectrum in peak values
+    spectrum = abs(rawSpectrum)./signalLen; % amplitude spectrum in peak values
     spectrum = spectrum(1:nfft/2+1); % select only positive frequencies
     spectrum(2:end-1) = 2*spectrum(2:end-1); % amplitude adjustment
     
@@ -93,25 +95,25 @@ end
 % Amplitde spectrum (based on rms values)
 if strcmp(p.Results.amp_mode, 'rms')
     
-    spectrum = sqrt(rawSpectrum.*conj(rawSpectrum)); % Magnitude calculation (one could simply use abs(spectrum) too)
+    spectrum = sqrt(rawSpectrum.*conj(rawSpectrum))./signalLen; % Magnitude calculation (one could simply use abs(spectrum) too)
     spectrum = spectrum(1:nfft/2+1); % Select just the positive frequencies
     spectrum(2:end-1) = sqrt(2).*spectrum(2:end-1); % Amplitude adjustment (rms value)
     
 end
 
-% Power spectrum
-if strcmp(p.Results.amp_mode, 'power')
-    
-    spectrum = rawSpectrum*conj(rawSpectrum); % Magnitude calculation (one could simply use abs(spectrum) too)
-    spectrum = spectrum(1:nfft/2+1); % Select just the positive frequencies
-    
-end
+% % Power spectrum - it's probably wrong, better not use it
+% if strcmp(p.Results.amp_mode, 'power')
+%     
+%     spectrum = abs(rawSpectrum)./signalLen; % Magnitude calculation (one could simply use abs(spectrum) too)
+%     spectrum = spectrum(1:nfft/2+1); % Select just the positive frequencies
+%     
+% end
 
 % Complex rms spectrum
 
 if strcmp(p.Results.amp_mode, 'complex')
    
-    spectrum = rawSpectrum(1:nfft/2+1); % Select just the positive frequencies
+    spectrum = rawSpectrum(1:nfft/2+1)./signalLen; % Select just the positive frequencies
     spectrum(2:end-1) = sqrt(2).*spectrum(2:end-1); % Amplitude adjustment (rms value)
     
 end
