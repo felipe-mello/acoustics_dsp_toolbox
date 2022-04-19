@@ -1,4 +1,4 @@
-# felipe_dsp_toolbox
+# Acoustics DSP toolbox for Matlab
  Repo with useful functions and routines for acoustic digital signal processing purposes.
 
 ## Background 
