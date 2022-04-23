@@ -1,11 +1,11 @@
-# felipe_dsp_toolbox
+# Acoustics DSP toolbox for Matlab
  Repo with useful functions and routines for acoustic digital signal processing purposes.
 
 ## Background 
 
  Since the first semester of 2021, I've been helping as a volunteer teaching assistant in the Acoustical Engineering program at UFSM (Brazil). Due to this work, I've developed several functions and routines to ease my tasks and also help other students grasp some digital signal processing concepts.
  
-Recently, I've organized everything and decided to make the functions public, so anyone can find and use them. Feel free to contact me if you find any bugs or conceptual errors. I'll be glad to fix those and learn a bit more!
+Recently, I've organized everything and decided to make all functions public, so anyone can find and use them. Feel free to contact me if you find any bugs or conceptual errors. I'll be glad to fix those and learn a bit more!
 
 ## Routines description
 
