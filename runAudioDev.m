@@ -10,7 +10,7 @@
 %   iv) 'excitation': sinal que será reproduzido
 %   v) 'nChannels': quantos canais (melhorar esse parâmetro)
 %
-% Felipe Ramos de Mello
+% Felipe Ramos de Mello - Março de 2022
 %
 function recordedAudio = runAudioDev(audioObj, varargin)
 
